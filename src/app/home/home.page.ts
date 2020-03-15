@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { NotificationService } from '../notification.service';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +9,12 @@ import { Component } from '@angular/core';
 })
 export class HomePage {
 
-  constructor() {}
+  constructor(private localNotifications: LocalNotifications, private mainService : NotificationService) {
+    this.mainService.setLanguage('FR')
+  }
 
+
+  schedule(){
+    this.mainService.schedule(this.localNotifications);
+  }
 }
