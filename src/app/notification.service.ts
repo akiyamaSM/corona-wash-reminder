@@ -29,6 +29,16 @@ export class NotificationService {
 
 
   constructor(public storage: Storage) { }
+  
+    async getItem(key){
+      let value = await this.storage.get(key);
+
+      return value;
+    }
+
+    async setIem(key, value){
+      await this.storage.set(key, value);
+    }
 
     async getLanguage(){
       let langue = await this.storage.get('inani_corona_wash_hands_lang');
@@ -36,17 +46,14 @@ export class NotificationService {
       return langue;
     }
 
-    setLanguage(langue){
-      this.storage.set('inani_corona_wash_hands_lang', langue);
+    async setLanguage(langue){
+      await this.storage.set('inani_corona_wash_hands_lang', langue);
     }
   
-    async schedule(localNotification: LocalNotifications){
-      let lang = await this.getLanguage();
+    async schedule(localNotification: LocalNotifications, lang: string){
 
-      if(lang === null){
-        lang = 'EN';
-      }
-      
+      await this.setLanguage(lang);
+
       let messages : Array<string> = this.messages.find((line) => line.langue === lang).messages;
       localNotification.cancelAll();
 

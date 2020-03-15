@@ -10,7 +10,15 @@
   <div id="container">
     <strong>Want to help your country?</strong>
     <p>Just wash your hands, please :3</p>
+    <div>
+      <ion-label>Select your messages language</ion-label>
+      <ion-select [value]="langue" (ionChange)="languageSelected($event)">
+        <ion-select-option value="FR">FRANCAIS</ion-select-option>
+        <ion-select-option value="EN">ENGLISH</ion-select-option>
+        <ion-select-option value="AR">العربية</ion-select-option>
+      </ion-select>
+    </div>
 
-    <ion-button color="success" (click)="schedule()">test</ion-button>
+    <ion-button color="success" (click)="schedule()">Save</ion-button>
   </div>
 </ion-content>
