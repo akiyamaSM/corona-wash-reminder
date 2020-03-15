@@ -62,37 +62,22 @@ export class NotificationService {
         moment().add(2, 'days')
       );
 
-      nextDates.forEach((date) => {
-        let time = this.getTimeFromDate(date)
-
-         localNotification.schedule([
-          {
-            id: Date.now(),
-            title: 'Wanna beat corona?',
-            text: this.getRandomMessageFrom(messages),
-            trigger: { 
-              every: { 
-                month: 3, day: 15, hour: 21, minute: 11 }, 
-              },
-            led: 'FF0000',
-            foreground: true,
-            vibrate: true
-         },
-         {
-            id: Date.now(),
-            title: 'Wanna beat corona?',
-            text: this.getRandomMessageFrom(messages),
-            trigger: { 
-              every: { 
-                month: 3, day: 15, hour: 21, minute: 14 }, 
-              },
-            led: 'FF0000',
-            foreground: true,
-            vibrate: true
-          }
-        ]); 
-      });
       
+      
+      nextDates.forEach((date) => {
+        let moment_date = moment(date, "MM-DD-YYYY");
+          moment_date.hours(21);
+          moment_date.minutes(36);
+        localNotification.schedule({
+            id: Date.now(),
+            led: 'FF0000',
+            foreground: true,
+            title: 'Wanna beat corona?',
+            text: this.getRandomMessageFrom(messages),
+            trigger: {at: new Date(moment_date.toISOString())},
+          });
+      });
+
 
   }
 
