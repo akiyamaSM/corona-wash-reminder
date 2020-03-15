@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { of } from 'rxjs';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
-
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -57,19 +57,72 @@ export class NotificationService {
       let messages : Array<string> = this.messages.find((line) => line.langue === lang).messages;
       localNotification.cancelAll();
 
-      localNotification.schedule({
-        title: 'Wanna beat corona?',
-        text: this.getRandomMessageFrom(messages),
-        trigger: {at: new Date(new Date().getTime() + 3600)},
-        led: 'FF0000',
-        sound: null,
-        foreground: true,
-     });
+      let nextDates = this.datesBetween(
+        moment(),
+        moment().add(2, 'days')
+      );
 
+      nextDates.forEach((date) => {
+        let time = this.getTimeFromDate(date)
+
+         localNotification.schedule([
+          {
+            id: Date.now(),
+            title: 'Wanna beat corona?',
+            text: this.getRandomMessageFrom(messages),
+            trigger: { 
+              every: { 
+                month: 3, day: 15, hour: 21, minute: 11 }, 
+              },
+            led: 'FF0000',
+            foreground: true,
+            vibrate: true
+         },
+         {
+            id: Date.now(),
+            title: 'Wanna beat corona?',
+            text: this.getRandomMessageFrom(messages),
+            trigger: { 
+              every: { 
+                month: 3, day: 15, hour: 21, minute: 14 }, 
+              },
+            led: 'FF0000',
+            foreground: true,
+            vibrate: true
+          }
+        ]); 
+      });
+      
+
+  }
+
+  getTimeFromDate(date){
+    let times = date.split('/');
+
+    return {
+      month: times[1],
+      day: times[0],
+      year: times[2]
+    }
   }
   
   getRandomMessageFrom(messages: Array<string>): string{
     return messages[0];
   }
 
+
+  datesBetween(startDate, endDate) {
+    var dates = [];
+
+    var currDate = moment(startDate).startOf('day');
+    var lastDate = moment(endDate).startOf('day');
+
+    do{
+      dates.push(currDate.clone().format('L'));
+
+    }
+    while(currDate.add(1, 'days').diff(lastDate) < 0);
+
+    return dates;
+  }
 }
