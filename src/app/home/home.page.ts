@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { NotificationService } from '../notification.service';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
-import * as moment from 'moment';
+
+import { AboutComponent } from '../modals/about/about.component';
 
 
 @Component({
@@ -19,7 +20,8 @@ export class HomePage implements OnInit {
     private localNotifications: LocalNotifications,
     private mainService : NotificationService,
     private loadingController: LoadingController,
-    private toastController: ToastController
+    private toastController: ToastController,
+    public modalController: ModalController
     ) {
   }
 
@@ -57,5 +59,13 @@ export class HomePage implements OnInit {
 
   languageSelected(event){
     this.langue = event.target.value;
+  }
+
+  async presentModal() {
+    const modal = await this.modalController.create({
+      component: AboutComponent
+    });
+    
+    return await modal.present();
   }
 }

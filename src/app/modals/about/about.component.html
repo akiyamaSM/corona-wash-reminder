@@ -1,0 +1,26 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="success">
+    <ion-title>
+      About Me
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <img src="/assets/me.jpg" />
+    <ion-card-header>
+      <ion-card-subtitle>Software Enginner</ion-card-subtitle>
+      <ion-card-title>El Houssain INANI</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      A passionate fullstack developper, create the best web apps for your requirments. you can reach me by my email.
+      <p>
+        <a (click)="sendMail()">inanielhoussain@gmail.com</a>
+        </p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
