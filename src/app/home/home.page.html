@@ -9,7 +9,7 @@
 <ion-content [fullscreen]="true">
   <div id="container">
     <strong>Want to help your country?</strong>
-    <p>Just wash your hands, please :3</p>
+    <p>Just wash your hands, please</p>
     <div>
       <ion-label>Select your messages language</ion-label>
       <ion-select [value]="langue" (ionChange)="languageSelected($event)">
@@ -18,6 +18,8 @@
         <ion-select-option value="AR">العربية</ion-select-option>
       </ion-select>
     </div>
+
+    <p>Notifications should end at {{ ends_date() }}</p>
 
     <ion-button color="success" (click)="schedule()">Save</ion-button>
     <ion-button (click)="presentModal()">About me</ion-button>

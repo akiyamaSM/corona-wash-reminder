@@ -6,6 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { NotificationService } from './notification.service';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,9 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent {
+
+  showSplash = true;
+  
   constructor(
     private localNotifications: LocalNotifications,
     private mainService : NotificationService,
@@ -36,6 +40,10 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+      timer(2000).subscribe(() => {
+        this.showSplash = false
+      })
       this.backgroundMode.setDefaults({ hidden: true, silent: true });
       
       this.backgroundMode.enable();

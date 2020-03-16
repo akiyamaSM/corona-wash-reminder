@@ -58,10 +58,12 @@ export class NotificationService {
 
       let messages : Array<string> = this.messages.find((line) => line.langue === lang).messages;
       localNotification.cancelAll();
+      
+      await this.setIem('inani_corona_wash_hands_started_at', moment().toISOString());
 
       let nextDates = this.datesBetween(
         moment(),
-        moment().add(90, 'days')
+        moment().add(7, 'days')
       );
 
       
@@ -81,6 +83,10 @@ export class NotificationService {
         {
           hour: 17,
           minutes: 0,
+        },
+        {
+          hour: 18,
+          minutes: 30,
         },
         {
           hour: 20,

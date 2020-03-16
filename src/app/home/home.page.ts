@@ -5,6 +5,7 @@ import { LoadingController, ModalController } from '@ionic/angular';
 import { ToastController } from '@ionic/angular';
 
 import { AboutComponent } from '../modals/about/about.component';
+import * as moment from 'moment';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { AboutComponent } from '../modals/about/about.component';
 export class HomePage implements OnInit {
 
   langue: string = 'EN';
-
+  started_at: any;
   constructor(
     private localNotifications: LocalNotifications,
     private mainService : NotificationService,
@@ -30,6 +31,11 @@ export class HomePage implements OnInit {
     let lang = await this.mainService.getLanguage();
     
     lang !== null && (this.langue = lang);
+
+
+    let started_at = await this.mainService.getItem('inani_corona_wash_hands_started_at');
+    
+    started_at !== null && (this.started_at = started_at);
   }
 
   async schedule(){
@@ -74,5 +80,9 @@ export class HomePage implements OnInit {
   async list(){
     let results = await this.localNotifications.getAll();
     console.log(results);
+  }
+
+  ends_date(){
+    return moment(new Date(this.started_at)).add(7, 'days').format('D/MM/YYYY');
   }
 }
