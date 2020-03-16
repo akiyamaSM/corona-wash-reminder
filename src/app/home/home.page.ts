@@ -62,10 +62,17 @@ export class HomePage implements OnInit {
   }
 
   async presentModal() {
+
+    //this.list();
     const modal = await this.modalController.create({
       component: AboutComponent
     });
     
     return await modal.present();
+  }
+
+  async list(){
+    let results = await this.localNotifications.getAll();
+    console.log(results);
   }
 }

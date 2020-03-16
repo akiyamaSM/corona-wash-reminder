@@ -12,17 +12,19 @@ export class NotificationService {
   readonly messages: Array<any> = [
     {
       langue: 'FR', messages: [
-        `lavez-vous les mains s'il vous plaît`,
+        `lavez-vous les mains s'il vous plaît, c'est important`,
       ]
     },
     {
       langue: 'AR', messages: [
         `اغسل يديك، رجاء`,
+        'ابقى في منزلك و اغسل يديك باستمرار، أزمة و ستمضي',
+        'اغسل يديك بالماء والصابـون أو بمطهر'
       ]
     },
     {
       langue: 'EN', messages: [
-        `Wash your hands please`,
+        `Wash your hands please, do it for the ones you love`,
       ]
     },
   ];
@@ -59,40 +61,67 @@ export class NotificationService {
 
       let nextDates = this.datesBetween(
         moment(),
-        moment().add(2, 'days')
+        moment().add(90, 'days')
       );
 
       
-      
+      let times: Array<any> = [
+        {
+          hour: 10,
+          minutes: 0,
+        },
+        {
+          hour: 12,
+          minutes: 0,
+        },
+        {
+          hour: 15,
+          minutes: 0,
+        },
+        {
+          hour: 17,
+          minutes: 0,
+        },
+        {
+          hour: 20,
+          minutes: 0,
+        },
+        {
+          hour: 22,
+          minutes: 0,
+        },
+      ];
+      let id = 0;
       nextDates.forEach((date) => {
         let moment_date = moment(date, "MM-DD-YYYY");
-          moment_date.hours(21);
-          moment_date.minutes(36);
-        localNotification.schedule({
-            id: Date.now(),
+          
+
+        let notifArray  = times.map((time) => {
+          let local_moment_date = moment_date.clone();
+          local_moment_date.hours(time.hour);
+          local_moment_date.minutes(time.minutes);
+          return {
+            id: ++id,
             led: 'FF0000',
             foreground: true,
             title: 'Wanna beat corona?',
             text: this.getRandomMessageFrom(messages),
-            trigger: {at: new Date(moment_date.toISOString())},
-          });
+            trigger: {at: new Date(local_moment_date.toISOString())},
+            data: {
+              when: local_moment_date.toISOString()
+            },
+            smallIcon: 'res://n_icon.png'
+          } 
+        });
+
+        localNotification.schedule([... notifArray]);
       });
 
 
   }
 
-  getTimeFromDate(date){
-    let times = date.split('/');
-
-    return {
-      month: times[1],
-      day: times[0],
-      year: times[2]
-    }
-  }
-  
   getRandomMessageFrom(messages: Array<string>): string{
-    return messages[0];
+    return messages[Math.floor(this.random(1, messages.length))-1];
   }
 
 
@@ -110,4 +139,11 @@ export class NotificationService {
 
     return dates;
   }
+
+  random(mn, mx) {  
+    return Math.random() * (mx - mn) + mn;  
+  }
+  
+  
+
 }
