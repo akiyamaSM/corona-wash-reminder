@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Clean CORONA</name>
+    <name>Hand Wash Reminder</name>
     <description>A simple app to remind you wash your hands.</description>
     <author email="inanielhoussain@gmail.com" href="http://inanielhoussain.com/">Inani El houssain</author>
     <content src="index.html" />

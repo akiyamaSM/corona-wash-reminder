@@ -69,7 +69,7 @@ export class HomePage implements OnInit {
 
   async presentModal() {
 
-    //this.list();
+    this.list();
     const modal = await this.modalController.create({
       component: AboutComponent
     });
@@ -83,6 +83,6 @@ export class HomePage implements OnInit {
   }
 
   ends_date(){
-    return moment(new Date(this.started_at)).add(7, 'days').format('D/MM/YYYY');
+    return moment(new Date(this.started_at)).add(5, 'days').format('D/MM/YYYY');
   }
 }

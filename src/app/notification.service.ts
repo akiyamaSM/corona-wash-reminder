@@ -57,13 +57,13 @@ export class NotificationService {
       await this.setLanguage(lang);
 
       let messages : Array<string> = this.messages.find((line) => line.langue === lang).messages;
-      localNotification.cancelAll();
+      localNotification.clearAll();
       
       await this.setIem('inani_corona_wash_hands_started_at', moment().toISOString());
 
       let nextDates = this.datesBetween(
         moment(),
-        moment().add(7, 'days')
+        moment().add(5, 'days')
       );
 
       
