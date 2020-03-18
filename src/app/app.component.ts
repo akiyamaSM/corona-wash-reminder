@@ -7,45 +7,44 @@ import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { NotificationService } from './notification.service';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { timer } from 'rxjs';
+import { serviceName } from './lib/config';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  styleUrls: ['app.component.scss']
+  styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
 
   showSplash = true;
-  
+
   constructor(
     private localNotifications: LocalNotifications,
-    private mainService : NotificationService,
+    private mainService: NotificationService,
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
-    private backgroundMode: BackgroundMode
+    private backgroundMode: BackgroundMode,
   ) {
     this.initializeApp();
   }
 
   async initializeApp() {
 
-
-    let is_installed = await this.mainService.getItem('inani_corona_wash_hands_is_installed');
-    if( is_installed === null){
+    let is_installed = await this.mainService.getItem(serviceName);
+    if (is_installed === null) {
       this.mainService.schedule(this.localNotifications, 'EN');
-      this.mainService.setIem('inani_corona_wash_hands_is_installed', true);
+      this.mainService.setIem(serviceName, true);
     }
 
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
 
-      timer(2000).subscribe(() => {
-        this.showSplash = false
-      })
+      timer(2000).subscribe(() => this.showSplash = false);
+
       this.backgroundMode.setDefaults({ hidden: true, silent: true });
-      
+
       this.backgroundMode.enable();
     });
   }

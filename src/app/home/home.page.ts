@@ -17,32 +17,33 @@ export class HomePage implements OnInit {
 
   langue: string = 'EN';
   started_at: any;
+
   constructor(
     private localNotifications: LocalNotifications,
     private mainService : NotificationService,
     private loadingController: LoadingController,
     private toastController: ToastController,
     public modalController: ModalController
-    ) {
+  ) {
   }
 
-  async ngOnInit(){
+  async ngOnInit() {
 
     let lang = await this.mainService.getLanguage();
     
     lang !== null && (this.langue = lang);
 
-
     let started_at = await this.mainService.getItem('inani_corona_wash_hands_started_at');
-    
-    started_at !== null && (this.started_at = started_at);
+
+    if(started_at != null) {
+      this.started_at = started_at;
+    }
   }
 
-  async schedule(){
+  async schedule() {
     const loading = await this.loadingController.create({
       message: 'Please wait...',
       duration: 2000,
-      
     });
     await this.mainService.schedule(this.localNotifications, this.langue);
 
@@ -54,7 +55,7 @@ export class HomePage implements OnInit {
 
   }
 
-  async showToast(){
+  async showToast() {
     const toast = await this.toastController.create({
       message: 'Your settings have been saved.',
       duration: 2000,
@@ -63,7 +64,7 @@ export class HomePage implements OnInit {
     await toast.present();
   }
 
-  languageSelected(event){
+  languageSelected(event) {
     this.langue = event.target.value;
   }
 
@@ -71,18 +72,18 @@ export class HomePage implements OnInit {
 
     this.list();
     const modal = await this.modalController.create({
-      component: AboutComponent
+      component: AboutComponent,
     });
     
     return await modal.present();
   }
 
-  async list(){
+  async list() {
     let results = await this.localNotifications.getAll();
     console.log(results);
   }
 
-  ends_date(){
+  ends_date() {
     return moment(new Date(this.started_at)).add(5, 'days').format('D/MM/YYYY');
   }
 }

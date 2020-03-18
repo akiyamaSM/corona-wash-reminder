@@ -9,7 +9,7 @@ import { AboutComponent } from '../modals/about/about.component';
 
 @NgModule({
   entryComponents: [
-    AboutComponent
+    AboutComponent,
   ],
   imports: [
     CommonModule,
@@ -18,10 +18,13 @@ import { AboutComponent } from '../modals/about/about.component';
     RouterModule.forChild([
       {
         path: '',
-        component: HomePage
+        component: HomePage,
       }
     ])
   ],
-  declarations: [HomePage, AboutComponent]
+  declarations: [
+    HomePage, 
+    AboutComponent,
+  ],
 })
-export class HomePageModule {}
+export class HomePageModule { }
