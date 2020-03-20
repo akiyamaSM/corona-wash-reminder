@@ -12,26 +12,25 @@ export class AboutComponent implements OnInit {
 
   constructor(private modalCtrl: ModalController, private emailComposer: EmailComposer) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
-
-  async dismiss(){
-   await this.modalCtrl.dismiss();
+  async dismiss() {
+    await this.modalCtrl.dismiss();
   }
 
+  sendMail() {
+    this.emailComposer.isAvailable().then((available: boolean) => {
+      if (available) {
 
-  sendMail(){
-    this.emailComposer.isAvailable().then((available: boolean) =>{
-      if(available) {
         let email = {
           to: 'inanielhoussain@gmail.com',
           subject: 'Hire ME!',
           body: 'I want to work with you',
           isHtml: true
         }
-        
+
         this.emailComposer.open(email);
       }
-     });
+    });
   }
 }
